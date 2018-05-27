@@ -1,0 +1,46 @@
+#!/bin/sh
+
+#--------------------------------------------------------------------
+# ansible Utilities
+#--------------------------------------------------------------------
+case "$fn" in
+    "ansible:deploy")
+        #
+        # This script is used to deploy playbook
+        #
+        ##########
+        #Variable#
+        ##########
+        DEVOPS_HOME=$HOME/workspace/devops/playbook/
+        HCN_HOME=$HOME/workspace/hcn-devops/playbook/
+        FCN_HOME=$HOME/workspace/fcn-devops/playbook/
+        DWH_HOME=$HOME/workspace/dwh-devops/playbook/
+        DEV_HOME=$HOME/workspace/dev-devops/playbook/
+        
+        ############
+        if [ "$2" == "setup" ]; then
+            cp -f $HOME/workspace/devops/scripts/ansible /usr/local/bin/deploy
+            # DevOps Project
+            elif [ "$2" == "devops" ]; then
+            cd $DEVOPS_HOME && ansible-playbook   "$3" --tags="$4"
+            # Dev  Project
+            elif [ "$2" == "dev" ]; then
+            cd $DEV_HOME && ansible-playbook   "$3" --tags="$4"
+            # DataWare House Connect Project
+            elif [ "$2" == "dwh" ]; then
+            cd $DWH_HOME && ansible-playbook   "$3" --tags="$4"
+            # Ambari Project
+            elif [ "$2" == "amrabi" ]; then
+            cd $DEVOPS_HOME && ansible-playbook   "$3" --tags="$4"
+            # Flight Connect Project
+            elif [ "$2" == "fcn" ]; then
+            cd $FCN_HOME && ansible-playbook   "$3" --tags="$4"
+            # Hotel Connect Project
+            elif [ "$2" == "hcn" ]; then
+            cd $HCN_HOME && ansible-playbook   "$3" --tags="$4"
+        else
+            echo  -e  "Usage: <command> <env> <playbook> <tags> \n   eg. deploy devops dev-api-config.yml common"
+        fi
+    ;;
+    
+esac
